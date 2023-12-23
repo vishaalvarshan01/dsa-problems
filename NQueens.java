@@ -1,52 +1,67 @@
 package Basics;
-
 public class NQueens {
 
-    public static void print(char[][] arr){
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-               System.out.print(arr[i][j] + " ");
+    public static void display(boolean[][] board) {
+        for (boolean[] arr : board) {
+            for (boolean i : arr) {
+                if (i)
+                    System.out.print("Q ");
+                else
+                    System.out.print("X ");
             }
             System.out.println("");
         }
-        System.out.println("-----------");
-        return;
+        System.out.println("");
     }
 
-    public static boolean isSafe(char[][] arr, int row, int col){
-        return false;
-    }
+    public static boolean isSafe(boolean[][] board, int row, int col) {
 
-    public static void solution(char[][] arr,int row, boolean cols[], boolean d1[], boolean d2[]) {
-
-        if(row == arr.length){
-            print(arr);
-            
-        }
-
-        for(int col = 0; col < arr[0].length; col++){
-            if(cols[col] == false && d1[row + col] == false && d2[row - col + arr.length - 1] == false){
-                cols[col] = true;
-                d1[row + col] = true;
-                d2[row - col + arr.length - 1] = true;
-                arr[row][col] = 'Q';
-                solution(arr, row + 1,cols,d1,d2);
-                cols[col] = false;
-                d1[row + col] = false;
-                d2[row - col + arr.length - 1] = false;
-                arr[row][col] = '*';
+        // check vertical row
+        for (int i = 0; i < row; i++) {
+            if (board[i][col]) {
+                return false;
             }
         }
-    }
 
-    public static void main(String args[]) {
-        int n = 4;
-        char[][] arr = new char[n][n];
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length; j++) {
-                arr[i][j] = '*';
+        // check diagonal left
+        int maxLeft = Math.min(row, col);
+        for (int i = 1; i <= maxLeft; i++) {
+            if (board[row - i][col - i]) {
+                return false;
             }
         }
-        solution(arr,0,new boolean[n], new boolean[2 * n - 1], new boolean[2 * n -1]);
+
+        // check diagonal right
+        int maxRight = Math.min(row, board.length - col - 1);
+        for (int i = 1; i <= maxRight; i++) {
+            if (board[row - i][col + i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int solution(boolean[][] board, int row) {
+        if (row == board.length) {
+            display(board);
+            return 1;
+        }
+        int count = 0;
+        // placing the queen and checking for every row and column
+
+        for (int col = 0; col < board.length; col++) {
+            // place the queen if it is safe
+            if (isSafe(board, row, col)) {
+                board[row][col] = true;
+                count += solution(board, row + 1);
+                board[row][col] = false;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        boolean[][] maze = new boolean[4][4];
+        solution(maze, 0);
     }
 }
