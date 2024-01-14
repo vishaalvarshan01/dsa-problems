@@ -58,7 +58,6 @@ public class MergeSort {
         int[] left = inPlaceMergeSort(arr, start, mid);
         int[] right = inPlaceMergeSort(arr, mid, end);
 
-        int i = 0, j = 0, k = 0;
 
         return merge(left, right);
     }

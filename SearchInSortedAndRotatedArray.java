@@ -1,4 +1,4 @@
-package DSAScalar.BinarySearch;
+package Basics;
 
 /*
  * Given a sorted and rotated array, find the index of the given element 

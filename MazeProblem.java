@@ -120,10 +120,13 @@ public class MazeProblem {
             return;
         }
 
+        // restricted block , cannot be accesseds
         if (!maze[x][y])
             return;
 
+        // once the element has been travelled, set it to false
         maze[x][y] = false;
+        
         path[x][y] = step;
 
         if (x < maze.length - 1) {

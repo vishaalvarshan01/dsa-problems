@@ -1,4 +1,8 @@
 package Basics;
+
+import java.util.ArrayList;
+
+
 public class NQueens {
 
     public static void display(boolean[][] board) {
@@ -60,8 +64,35 @@ public class NQueens {
         return count;
     }
 
+    public static ArrayList<Boolean> listOfQueens(boolean[][] board, int row) {
+        if (row == board.length) {
+            ArrayList<Boolean> ans = new ArrayList<>();
+            return ans;
+        }
+       
+        // placing the queen and checking for every row and column
+
+        ArrayList<Boolean> list = new ArrayList<>();
+        for (int col = 0; col < board.length; col++) {
+            // place the queen if it is safe
+            if (isSafe(board, row, col)) {
+                board[row][col] = true;
+                list.addAll(listOfQueens(board, row + 1));
+                board[row][col] = false;
+            }
+        }
+        return list;
+    }
+
+    // public static List<List<String>> solveNQueens(int n) {
+        
+    // }
+
     public static void main(String[] args) {
         boolean[][] maze = new boolean[4][4];
-        solution(maze, 0);
+        int ans = solution(maze, 0);
+        System.out.println("number of solutions : " + ans);
+
+
     }
 }
